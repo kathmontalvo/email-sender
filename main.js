@@ -30,22 +30,27 @@ function sendMail(to,subject,message)
       }      
    }); 
 }
-var message = '<p>This is HTML content</p>';
 
 const sendMailxExcel = () => {
    xlsxFile('./db.xlsx').then((rows) => {
       console.table(rows);
       rows.map((row, i)=> {
-         // i && console.log(row, i)
-         const message = `
-         <h1>Topic</h1>
-         <p>
-            Dear ${row[1]}
-         </p>
-         <p>asdasdasdasdasdasdas</p>
-         `
+         const email = row[8];
+         const subject = `Value chain - ${row[5]}`;
 
-         i && sendMail(row[2], row[0], message)
+         const englishMsg = `
+            Dear ${row[7]} ${row[6]}, <br/>
+            I am a Peruvian student currently working on a research about specialty coffee value chain. I would like to get an approach on some key points regarding ${row[2]} and ${row[4]} markets. Would you be interested in scheduling a meeting? <br/>
+            Thanks in advance!
+         `;
+         const spanishMsg = `
+            Estimadx ${row[7]} ${row[6]}, <br/>
+            Soy un estudiante peruano actualmente investigando sobre la cadena de valor de los cafés de especialidad. Me gustaría conversar contigo sobre algunos puntos claves respecto a el mercado de ${row[4]}, ${row[2]}. Crees que podamos agendar una reunión virtual?
+            Muchas gracias!
+      `;
+         const message = row[3] === 'English' ? englishMsg : spanishMsg;
+         const contacted = row[11];
+         i && contacted === 'NO' && sendMail(email, subject, message)
       })
    })
 }
