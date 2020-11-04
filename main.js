@@ -12,7 +12,7 @@ function sendMail(to,subject,message)
    };
    var transporter = nodemailer.createTransport(smtpConfig);
    var mailOptions = {
-      from: '"Sender Name" <sender@gmail.com>', // sender address
+      from: '"Kath Montalvo" <xxx@gmail.com>', // sender address
       to: to, // list of receivers
       subject: subject, // Subject line
       text: 'Hello world ?', // plaintext body
@@ -32,17 +32,25 @@ function sendMail(to,subject,message)
 }
 var message = '<p>This is HTML content</p>';
 
-const seeRows = () => {
+const sendMailxExcel = () => {
    xlsxFile('./db.xlsx').then((rows) => {
       console.table(rows);
-      rows.map((el, i)=> {
-         // i && console.log(el, i)
-         i && sendMail(el[2], el[0], `Hello ${el[1]}`)
+      rows.map((row, i)=> {
+         // i && console.log(row, i)
+         const message = `
+         <h1>Topic</h1>
+         <p>
+            Dear ${row[1]}
+         </p>
+         <p>asdasdasdasdasdasdas</p>
+         `
+
+         i && sendMail(row[2], row[0], message)
       })
    })
 }
 
-seeRows();
+sendMailxExcel();
 
 // Clonar el repositorio
 // Correr el comando: npm install 
